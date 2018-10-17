@@ -1,0 +1,353 @@
+<div id="home">
+	<!-- home页面
+	<div class="switch">
+      <input type="checkbox"/>
+    </div> -->
+    <div class="outerDiv">
+    	<div class="row">
+    		<!-- 左侧 -->
+    		<div class="col-sm-3">
+    			<!-- 3个div -->
+    			<div class="totalDiv bg-white">
+    				<!-- 图标 -->
+    				<div class="iconDiv bg-green one">
+    					<i class="iconfont icon-yun"></i>
+    				</div>
+    				<!-- 数字 -->
+    				<div class="numDiv">
+    					<span>99.9%</span>
+    					<small>SERVER UPTIME</small>
+    				</div>
+    			</div>
+    			<div class="totalDiv bg-white">
+    				<!-- 图标 -->
+    				<div class="iconDiv bg-green two">
+    					<i class="iconfont icon-user"></i>
+    				</div>
+    				<!-- 数字 -->
+    				<div class="numDiv">
+    					<span>117K</span>
+    					<small>SERVER UPTIME</small>
+    				</div>
+    			</div>
+    			<div class="totalDiv bg-white">
+    				<!-- 图标 -->
+    				<div class="iconDiv bg-green three">
+    					<i class="iconfont icon-18"></i>
+    				</div>
+    				<!-- 数字 -->
+    				<div class="numDiv">
+    					<span>2,470</span>
+    					<small>SERVER UPTIME</small>
+    				</div>
+    			</div>
+    		</div>
+
+			<!-- 图表和字 -->
+    		<div class="col-sm-6">
+    			<div class="visDiv">
+    				<div id="visContainer"></div>
+    				<div class="numDiv">
+    					<span>14.85%</span>
+    					<small>More Visitors</small>
+    				</div>
+    			</div>
+    		</div>
+
+			<!-- 右侧 -->
+    		<div class="col-sm-3">
+    			<div class="uptimeDiv">
+    				<div id="uptimeContainer"></div>
+    				<div class="numDiv">
+    					<span>14.85%</span>
+    					<small>CURRENT SERVER UPTIME</small>
+    				</div>
+    			</div>
+    			<div class="salesDiv">
+    				<div id="salesContainer"></div>
+    				<div class="numDiv">
+    					<span>320,45</span>
+    					<small>More Visitors</small>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div>
+<script>
+	$(function(){
+		// 画图
+		drawVis();
+		drawUptime();
+		drawSales();
+		// 函数提升，所有的函数和变量的声明都会提前到代码第一行，并且变量提升在函数之前
+	
+		function drawVis(){
+			var chart = Highcharts.chart('visContainer', {
+				chart:{
+					// 设置图标和区域的距离
+					margin:[0,0,0,0],
+				},
+				colors:['#63b919','#ccc'],
+				title: {
+					text: ''
+				},
+				credits:{
+					enabled:false	
+				},
+				xAxis: {
+					visible:false,
+					title: {
+						text: ''
+					}
+				},
+				yAxis: {
+					visible:false,
+					title: {
+						text: '就业人数'
+					}
+				},
+				legend: {  //图例
+					// enabled:false,
+					floating: true,
+					layout: 'vertical',
+					align: 'right',
+					verticalAlign: 'middle'
+				},
+				plotOptions: {   
+					series: {
+						label: {
+							connectorAllowed: false
+						},
+						pointStart: 2010
+					}
+				},
+				series: [{
+					name: 'PageViews',
+					data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+				}, {
+					name: 'Visitors',
+					data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+				},],
+				responsive: {
+					rules: [{
+						condition: {
+							maxWidth: 500
+						},
+						chartOptions: {
+							legend: {
+								layout: 'horizontal',
+								align: 'center',
+								verticalAlign: 'bottom'
+							}
+						}
+					}]
+				}
+			});
+		}
+		function drawUptime(){
+			// 柱状图
+			Highcharts.chart('uptimeContainer', {
+				colors:['#7c30bc'],
+				credits:{
+					enabled:false	
+				},
+				chart: {
+					type: 'column',
+					margin:[0,0,0,0],//设置图表与区域的外边距
+				},
+				title: {
+					text: ''
+				},
+				xAxis: {
+					visible:false,
+					type: 'category'
+				},
+				yAxis: {
+					visible:false,
+					title: {
+						text: '总的市场份额'
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				plotOptions: {
+					series: {
+						borderWidth: 0,
+						dataLabels: {
+							// enabled: true,
+							format: '{point.y:.1f}%'
+						}
+					}
+				},
+				tooltip: {
+					headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+					pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+				},
+				series: [{
+					name: '浏览器品牌',
+					colorByPoint: true,
+					data:[29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+				}],
+			});
+		}
+		function drawSales(){
+			var chart = Highcharts.chart('salesContainer', {
+				colors:['#5c9d48','#6baa57','#bcf2a5','#296914','#89c56e'],
+				credits:{
+					enabled:false	
+				},
+				chart: {
+					margin:[0,0,0,100],
+				},
+				title: {
+					floating:true,
+					text: ''
+				},
+				tooltip: {
+					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				},
+				plotOptions: {
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+							enabled: false,
+							format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+							style: {
+								color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+							}
+						},
+					}
+				},
+				series: [{
+					type: 'pie',
+					innerSize: '50%',
+					name: 'sales',
+					data: [
+						{name:'Firefox',y: 45.0},
+						['IE',26.8],
+						['Firefox',26.8],
+						['Safari',8.5],
+						['Opera',6.2],
+						['其他',0.7]
+					]
+				}]
+			}, function(c) { // 图表初始化完毕后的会掉函数
+				// 环形图圆心
+				var centerY = c.series[0].center[1],
+					titleHeight = parseInt(c.title.styles.fontSize);
+				// 动态设置标题位置
+				c.setTitle({
+					y:centerY + titleHeight/2
+				});
+			});
+		}
+	});
+
+
+
+
+	$(function(){
+		// $('#home input[type=checkbox]').bootstrapSwitch('state',false);
+		// $("#home").on({
+		// 	'switchChange.bootstrapSwitch':function (event,state) {
+		//           alert(state);
+		//           // 点击修改之后，向后台传递参数
+		//       }
+		// },'[type=checkbox]');	
+	});
+</script>
+<style>
+/*	#home{
+		color: red;
+	}*/
+	.outerDiv{
+		width: 95%;
+		margin: 0 auto;
+	}
+	.bg-white{
+		background-color: white;
+	}
+	.bg-green{
+		background-color: #63b919;
+	}
+	/*左侧的三行*/
+	.totalDiv{
+		overflow: hidden;
+		padding: 10px;
+		border-radius: 5px;
+		margin-top: 10px;
+	}
+	.iconDiv,.totalDiv .numDiv{
+		float: left;
+	}
+	.iconDiv{
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		text-align: center;
+		margin-left: 10px;
+	}
+	.iconDiv i{
+		font-size: 24px;
+		color: white;
+		line-height: 40px;
+	}
+	.two{
+		background-color: #7c2fc2;
+	}
+	.three{
+		background-color: #38bbed;
+	}
+	.totalDiv .numDiv{
+		margin-left: 20px;
+	}
+	.numDiv span{
+		font-size:24px;
+		line-height: 24px;
+	}
+	.numDiv small{
+		display: block;	
+	}
+	.visDiv,.uptimeDiv,.salesDiv{
+		position: relative;
+	}
+	#visContainer{
+		height: 206px;
+		margin-top: 10px;
+	}
+	.visDiv .numDiv,.uptimeDiv .numDiv,.salesDiv .numDiv{
+		position: absolute;
+		top: 20px;
+		left: 20px;
+	}
+	.uptimeDiv .numDiv,.salesDiv .numDiv{
+		top:10px;
+		left: 10px;
+	}
+	.visDiv .numDiv span{
+		color: #63b919;
+	}
+	#uptimeContainer,#salesContainer{
+		height: 98px;
+		margin-top: 10px;
+	}
+	.uptimeDiv span,.salesDiv span{
+		font-size: 20px;
+		font-weight: bold;
+	}
+	.uptimeDiv span{
+		color: #7c30bc;
+	}
+	small{
+		color: #aaabb0;
+	}
+	.salesDiv span{
+		color:#5c9d48;
+	}
+	/*#salesContainer{
+		margin-top: 10px;
+	}*/
+</style>
